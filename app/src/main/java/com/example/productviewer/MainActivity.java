@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                assert layoutManager != null;
                 int visibleItemCount = layoutManager.getChildCount();
                 int totalItemCount = layoutManager.getItemCount();
                 int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
@@ -58,40 +59,31 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        recyclerAdapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Product product) {
-                Intent intent = new Intent(MainActivity.this, ProductActivity.class);
-                intent.putExtra("product", product);
-                startActivity(intent);
-            }
+        recyclerAdapter.setOnItemClickListener(product -> {
+            Intent intent = new Intent(MainActivity.this, ProductActivity.class);
+            intent.putExtra("product", product);
+            startActivity(intent);
         });
 
-        new FetchProductsTask(0,20,new FetchProductsTask.OnProductsFetchedListener() {
-            @Override
-            public void onProductsFetched(List<Product> products) {
-                if (products.isEmpty()) {
-                    textMessage.setText("Ошибка при загрузке продуктов");
-                } else {
-                    textMessage.setText(null);
-                    //buttonNextPage.setAlpha(1);
-                    //buttonNextPage.setText("Загрузить далее");
-                    data.addAll(products);
-                    recyclerAdapter.notifyDataSetChanged();
-                }
+        new FetchProductsTask(0,20, products -> {
+            if (products.isEmpty()) {
+                textMessage.setText("Ошибка при загрузке продуктов");
+            } else {
+                textMessage.setText(null);
+                //buttonNextPage.setAlpha(1);
+                //buttonNextPage.setText("Загрузить далее");
+                data.addAll(products);
+                recyclerAdapter.notifyDataSetChanged();
             }
         }).execute();
 
     }
 
     private void loadNextPage(int page) {
-        new FetchProductsTask(page * PAGE_SIZE, PAGE_SIZE, new FetchProductsTask.OnProductsFetchedListener() {
-            @Override
-            public void onProductsFetched(List<Product> products) {
-                if (!products.isEmpty()) {
-                    data.addAll(products);
-                    recyclerAdapter.notifyDataSetChanged();
-                }
+        new FetchProductsTask(page * PAGE_SIZE, PAGE_SIZE, products -> {
+            if (!products.isEmpty()) {
+                data.addAll(products);
+                recyclerAdapter.notifyDataSetChanged();
             }
         }).execute();
     }
