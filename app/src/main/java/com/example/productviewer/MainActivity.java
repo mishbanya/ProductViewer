@@ -51,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
                 int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
                 if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
                         && firstVisibleItemPosition >= 0
-                        && !isLoading) {
+                        && !isLoading
+                        && data.size()!=0
+                    )   {
                     int nextPage = (totalItemCount / PAGE_SIZE) + 1;
                     isLoading=true;
                     loadNextPage(nextPage);
