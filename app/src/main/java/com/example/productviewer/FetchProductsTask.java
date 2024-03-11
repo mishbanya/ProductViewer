@@ -2,12 +2,14 @@ package com.example.productviewer;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import okhttp3.HttpUrl;
@@ -45,11 +47,18 @@ public class FetchProductsTask extends AsyncTask<Void, Void, List<Product>> {
         try {
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
+                try {
                 String jsonData = response.body().string();
                 JsonObject jsonObject = JsonParser.parseString(jsonData).getAsJsonObject();
                 JsonArray productsArray = jsonObject.getAsJsonArray("products");
-
-                for (JsonElement element : productsArray) {
+                Gson gson = new Gson();
+                Product[] productArray = gson.fromJson(productsArray, Product[].class);
+                products = Arrays.asList(productArray);
+                }catch(IOException e) {
+                    Log.e(TAG, "IOException", e);
+                    products = null;
+                }
+                /*for (JsonElement element : productsArray) {
                     JsonObject productObject = element.getAsJsonObject();
                     Product product = new Product();
                     if (productObject.has("id") && !productObject.get("id").isJsonNull()) {
@@ -83,7 +92,7 @@ public class FetchProductsTask extends AsyncTask<Void, Void, List<Product>> {
                         product.setThumbnailUrl(productObject.get("thumbnail").getAsString());
                     }
                     products.add(product);
-                }
+                }*/
             } else {
                 Log.e(TAG, "Error: " + response.code() + " " + response.message());
                 products = null;

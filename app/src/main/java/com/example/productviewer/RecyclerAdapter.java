@@ -38,7 +38,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.textViewTitle.setText(data.getTitle());
         holder.textViewDescription.setText(data.getDescription());
         holder.textViewPrice.setText(String.valueOf(data.getPrice()+"$"));
-        Picasso.get().load(data.getThumbnailUrl()).into(holder.imageViewThumbnail);
+        Picasso.get().load(data.getThumbnail()).into(holder.imageViewThumbnail);
     }
 
     @Override

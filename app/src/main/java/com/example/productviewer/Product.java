@@ -12,12 +12,12 @@ public class Product implements Serializable{
     private int stock;
     private String brand;
     private String category;
-    private String thumbnailUrl;
+    private String thumbnail;
 
     public Product() {
         this.title = "A product";
         this.description = "empty";
-        this.thumbnailUrl = "empty";
+        this.thumbnail = "empty";
         this.price = 1;
     }
 
@@ -93,11 +93,11 @@ public class Product implements Serializable{
         this.category = category;
     }
 
-    public String getThumbnailUrl() {
-        return thumbnailUrl;
+    public String getThumbnail() {
+        return thumbnail;
     }
 
-    public void setThumbnailUrl(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.View;
 import android.widget.ImageView;
 
 import com.example.productviewer.databinding.ActivityProductBinding;
@@ -32,6 +31,6 @@ public class ProductActivity extends AppCompatActivity{
         binding.productDescription.setText(product.getDescription());
         binding.productTitle.setText(product.getTitle());
         binding.productPrice.setText(String.valueOf(product.getPrice())+"$");
-        Picasso.get().load(product.getThumbnailUrl()).into(productThumbnail);
+        Picasso.get().load(product.getThumbnail()).into(productThumbnail);
     }
 }
