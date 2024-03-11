@@ -39,6 +39,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.textViewDescription.setText(data.getDescription());
         holder.textViewPrice.setText(String.valueOf(data.getPrice()+"$"));
         Picasso.get().load(data.getThumbnail()).into(holder.imageViewThumbnail);
+        if (position==dataList.size()-1){
+            holder.textViewLoading.setVisibility(View.VISIBLE);
+        }else {
+            holder.textViewLoading.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -58,6 +63,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         TextView textViewPrice;
         TextView textViewDescription;
         ImageView imageViewThumbnail;
+        TextView textViewLoading;
 
         Button button;
         ViewHolder(View itemView) {
@@ -67,6 +73,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
             textViewTitle = itemView.findViewById(R.id.textViewTitle);
             button = itemView.findViewById(R.id.buttonProduct);
+            textViewLoading = itemView.findViewById(R.id.textViewLoading);
 
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
